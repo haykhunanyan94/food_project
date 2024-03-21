@@ -718,17 +718,21 @@ a {
 .show {
     display: block;
 }
+
 .hide {
-     display: none;
+    display: none;
 }
-.fade{
+
+.fade {
     animation: fade;
     animation-duration: 1.2s;
 }
+
 @keyframes fade {
-    from{
+    from {
         opacity: 0.1
     }
+
     to {
         opacity: 1;
     }
