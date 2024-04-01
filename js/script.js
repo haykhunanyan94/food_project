@@ -75,7 +75,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
 		} else {
 			days = Math.floor(total / (1000 * 60 * 60 * 24));
-			hours = Math.floor((total / 1000 * 60 * 60) % 24);
+			hours = Math.floor(total / (1000 * 60 * 60) % 24);
 			minutes = Math.floor((total / 1000 / 60) % 60);
 			seconds = Math.floor((total / 1000) % 60);
 
