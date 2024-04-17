@@ -122,53 +122,107 @@ window.addEventListener("DOMContentLoaded", () => {
 	const modal = document.querySelector("[data-modal]");
 	const closeModalBtn = document.querySelector("[data-close-modal]");
 
-	function openModal(){
+	function openModal() {
 		modal.classList.add("show");
 		document.body.style.overflow = "hidden"
 		modal.dataset.isOpen = true;
 		clearTimeout(modalTimerId);
 	}
 
-	function closeModal(){
+	function closeModal() {
 		modal.classList.remove("show");
 		document.body.style.overflow = "";
 		modal.dataset.isOpen = false;
 	}
 
-	function closeModalAnotherVariants(event){
-		if(event.target === modal || event.code === "Escape"){
-			if(modal.matches(".show")){
-			closeModal();
+	function closeModalAnotherVariants(event) {
+		if (event.target === modal || event.code === "Escape") {
+			if (modal.matches(".show")) {
+				closeModal();
 			}
 		}
 	}
 
 
-openModalBtn.forEach(btn => btn.addEventListener("click", openModal));
-closeModalBtn.addEventListener("click", closeModal);
+	openModalBtn.forEach(btn => btn.addEventListener("click", openModal));
+	closeModalBtn.addEventListener("click", closeModal);
 
-modal.addEventListener("click", (e) => closeModalAnotherVariants (e));
-document.addEventListener('keydown', (e) => closeModalAnotherVariants(e));
-
-
-const modalTimerId = setTimeout(openModal, 30000);
+	modal.addEventListener("click", (e) => closeModalAnotherVariants(e));
+	document.addEventListener('keydown', (e) => closeModalAnotherVariants(e));
 
 
+	const modalTimerId = setTimeout(openModal, 500000);
 
-function showModalByScroll(){
-	if(
-		window.scrollY + document.documentElement.clientHeight 
-		>= 
-		document.documentElement.scrollHeight - 1
-		&& 
-		modal.dataset.isOpen === "false"
+
+
+	function showModalByScroll() {
+		if (
+			window.scrollY + document.documentElement.clientHeight
+			>=
+			document.documentElement.scrollHeight - 1
+			&&
+			modal.dataset.isOpen === "false"
 		) {
-		openModal();
-		window.removeEventListener("scroll", showModalByScroll)
+			openModal();
+			window.removeEventListener("scroll", showModalByScroll)
+		}
 	}
-}
 
-window.addEventListener("scroll", showModalByScroll)
-// modal end
+	window.addEventListener("scroll", showModalByScroll)
+	// modal end
+
+	// menu card
+	class MenuCard {
+		constructor(src, alt, title, descr, price, parent) {
+			this.parent = document.querySelector(parent);
+			this.src = src;
+			this.alt = alt;
+			this.title = title;
+			this.descr = descr;
+			this.price = price;
+			this.change = 398.7;
+			this.changeToAMD();
+		}
+
+		changeToAMD() {
+			this.price = this.price * this.change;
+		}
+
+		render() {
+			const element = document.createElement("div");
+			const { src, alt, title, descr, price } = this;
+			element.classList.add
+			element.innerHTML = `
+			<div class = "menu__item"> 
+			<img src=${src} alt=${alt}>
+			<h3 class="menu__item-subtitle">${title}</h3>
+			<div class="menu__item-descr">${descr}</div>
+			<div class="menu__item-divider"></div>
+			<div class="menu__item-price">
+				<div class="menu__item-cost">Цена:</div>
+				<div class="menu__item-total"><span>${price}</span> AMD/день</div>
+			</div>
+			</div>
+			`;
+			this.parent.append(element);
+		}
+	}
+	new MenuCard("img/tabs/vegy.jpg", "vegy", "Меню \"Фитнес\"", `Меню "Фитнес" 
+	- это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт 
+	активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и
+	 высоким качеством!`, "8", ".menu__field .container").render();
+
+
+	 new MenuCard("img/tabs/elite.jpg", "elite", "Меню \"Премиум\"", `В меню “Премиум”
+	  мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. 
+	  Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!`, "10", 
+	  ".menu__field .container").render();
+	  
+	  new MenuCard("img/tabs/post.jpg", "post", "Меню \"Постное\"", `Меню “Постное” - это 
+	  тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения,
+	   молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет 
+	   тофу и импортных вегетарианских стейков.`, "15", ".menu__field .container").render();
+
+
 });
 
